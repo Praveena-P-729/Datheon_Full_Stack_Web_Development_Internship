@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" fill="none">
-  <path d="M0 165 Q 200 120 400 155 T 800 140" stroke="currentColor" stroke-width="1" stroke-opacity="0.14" />
-  <path d="M0 185 Q 220 148 440 175 T 800 162" stroke="currentColor" stroke-width="1" stroke-opacity="0.1" />
-  <path d="M0 205 Q 250 178 480 198 T 800 188" stroke="currentColor" stroke-width="1" stroke-opacity="0.06" />
-  <line x1="0" y1="150" x2="800" y2="150" stroke="currentColor" stroke-width="0.75" stroke-dasharray="4 6" stroke-opacity="0.12" />
-</svg>

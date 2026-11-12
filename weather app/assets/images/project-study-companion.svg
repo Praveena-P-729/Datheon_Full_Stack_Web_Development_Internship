@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="100%" height="100%">
+  <rect width="640" height="400" fill="#111820" />
+  <rect x="24" y="24" width="592" height="352" rx="8" fill="#1B252F" stroke="#34404A" stroke-width="1.5" />
+
+  <!-- Top Bar -->
+  <rect x="24" y="24" width="592" height="36" rx="8" fill="#23303D" />
+  <line x1="24" y1="60" x2="616" y2="60" stroke="#34404A" stroke-width="1" />
+  <circle cx="44" cy="42" r="4" fill="#66717D" />
+  <circle cx="58" cy="42" r="4" fill="#66717D" />
+  <circle cx="72" cy="42" r="4" fill="#66717D" />
+  <text x="96" y="46" font-family="monospace" font-size="11" fill="#AAB3BC">study-companion / workspace / os-module-03</text>
+
+  <!-- Left Navigation / Syllabus Outline -->
+  <rect x="40" y="76" width="160" height="282" rx="6" fill="#111820" stroke="#34404A" stroke-width="1" />
+  <text x="54" y="100" font-family="monospace" font-size="10" fill="#78A6B8" font-weight="600">SYLLABUS MODULES</text>
+  <rect x="52" y="114" width="136" height="28" rx="4" fill="#1B252F" stroke="#9A8BCB" stroke-width="1" />
+  <text x="62" y="132" font-family="sans-serif" font-size="10.5" fill="#F1F2F3">01. Process Scheduling</text>
+  <text x="62" y="164" font-family="sans-serif" font-size="10.5" fill="#AAB3BC">02. Memory Paging</text>
+  <text x="62" y="192" font-family="sans-serif" font-size="10.5" fill="#AAB3BC">03. Deadlock Handling</text>
+  <text x="62" y="220" font-family="sans-serif" font-size="10.5" fill="#AAB3BC">04. File Systems</text>
+
+  <rect x="52" y="294" width="136" height="48" rx="4" fill="#1B252F" stroke="#34404A" />
+  <text x="62" y="314" font-family="monospace" font-size="9.5" fill="#78A6B8">ACTIVE SESSION</text>
+  <text x="62" y="330" font-family="sans-serif" font-size="10.5" fill="#F1F2F3">Flashcard Review</text>
+
+  <!-- Center: Study Notes & Concept Summary -->
+  <rect x="216" y="76" width="228" height="282" rx="6" fill="#111820" stroke="#34404A" stroke-width="1" />
+  <text x="232" y="100" font-family="monospace" font-size="10" fill="#9A8BCB" font-weight="600">CONCEPT SYNTHESIS</text>
+  <text x="232" y="126" font-family="sans-serif" font-size="13" fill="#F1F2F3" font-weight="700">CPU Scheduling Basics</text>
+  <rect x="232" y="140" width="196" height="8" rx="2" fill="#23303D" />
+  <rect x="232" y="156" width="180" height="8" rx="2" fill="#23303D" />
+  <rect x="232" y="172" width="190" height="8" rx="2" fill="#23303D" />
+
+  <!-- Practice Prompt Card -->
+  <rect x="232" y="200" width="196" height="140" rx="6" fill="#1B252F" stroke="#34404A" />
+  <text x="246" y="224" font-family="monospace" font-size="9.5" fill="#78A6B8">QUIZ GENERATOR</text>
+  <text x="246" y="246" font-family="sans-serif" font-size="10.5" fill="#F1F2F3">Compare Round Robin vs</text>
+  <text x="246" y="262" font-family="sans-serif" font-size="10.5" fill="#F1F2F3">SJF turnaround latency?</text>
+  <rect x="246" y="290" width="168" height="32" rx="4" fill="#9A8BCB" />
+  <text x="330" y="310" font-family="sans-serif" font-size="10.5" fill="#111820" font-weight="700" text-anchor="middle">Reveal Structured Answer</text>
+
+  <!-- Right: AI Tutor Context Panel -->
+  <rect x="460" y="76" width="140" height="282" rx="6" fill="#111820" stroke="#34404A" stroke-width="1" />
+  <text x="472" y="100" font-family="monospace" font-size="10" fill="#78A6B8">STUDY ASSISTANT</text>
+  <rect x="472" y="114" width="116" height="62" rx="4" fill="#1B252F" stroke="#34404A" />
+  <text x="480" y="132" font-family="sans-serif" font-size="9.5" fill="#AAB3BC">Summarize key</text>
+  <text x="480" y="146" font-family="sans-serif" font-size="9.5" fill="#AAB3BC">formulas for</text>
+  <text x="480" y="160" font-family="sans-serif" font-size="9.5" fill="#F1F2F3">Wait Time = TAT - BT</text>
+
+  <rect x="472" y="190" width="116" height="90" rx="4" fill="#1B252F" stroke="#9A8BCB" stroke-width="1" />
+  <text x="480" y="210" font-family="monospace" font-size="9" fill="#9A8BCB">REVISION PLAN</text>
+  <text x="480" y="228" font-family="sans-serif" font-size="9.5" fill="#F1F2F3">Day 1: Scheduling</text>
+  <text x="480" y="246" font-family="sans-serif" font-size="9.5" fill="#AAB3BC">Day 2: Synchronization</text>
+  <text x="480" y="264" font-family="sans-serif" font-size="9.5" fill="#AAB3BC">Day 3: Practice Quiz</text>
+</svg>

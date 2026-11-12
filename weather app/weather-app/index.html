@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Meridian — Real-Time Weather Forecast &amp; Climate Telemetry</title>
+  <meta name="description" content="Editorial real-time weather forecast and climate telemetry application powered by the OpenWeatherMap REST API. Search any global city for live metrics and a 5-day forecast." />
+  <meta name="author" content="Praveena P." />
+
+  <link rel="icon" type="image/svg+xml" href="assets/icons/logo.svg" />
+
+  <!-- Editorial Typography: Newsreader / Plus Jakarta Sans / Inter / JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="atmosphere-clear-day">
+
+  <div class="page-shell">
+
+    <!-- ========================================================================
+         SECTION A: HEADER
+         ======================================================================== -->
+    <header class="site-header" role="banner">
+      <div class="header-inner">
+        <a href="#top" id="top" class="brand" aria-label="Meridian Climate Telemetry Home">
+          <img src="assets/icons/logo.svg" alt="" class="brand-mark" width="28" height="28" aria-hidden="true" />
+          <div class="brand-text">
+            <span class="brand-name">Meridian</span>
+            <span class="brand-tag">Climate Telemetry</span>
+          </div>
+        </a>
+
+        <!-- Global City Search Form -->
+        <form id="searchForm" class="search-bar" role="search" novalidate>
+          <label for="cityInput" class="sr-only">Search city weather</label>
+          <div class="search-field-wrap">
+            <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <circle cx="11" cy="11" r="7.5"></circle>
+              <line x1="20.5" y1="20.5" x2="16.3" y2="16.3"></line>
+            </svg>
+            <input
+              type="search"
+              id="cityInput"
+              class="search-input"
+              placeholder="Search city (e.g., Coimbatore, London, Tokyo)..."
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Enter city name"
+            />
+          </div>
+
+          <button type="submit" id="searchBtn" class="btn btn-primary" aria-label="Search weather">
+            <span class="btn-spinner" id="btnSpinner" hidden aria-hidden="true"></span>
+            <span id="searchBtnLabel">Search</span>
+          </button>
+
+          <button type="button" id="geoBtn" class="btn btn-secondary" title="Use current location" aria-label="Detect weather for current location">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+            </svg>
+            <span class="geo-label">Location</span>
+          </button>
+        </form>
+
+        <!-- Unit, Theme & API Key Controls -->
+        <div class="header-controls">
+          <div class="unit-switch" role="radiogroup" aria-label="Temperature unit">
+            <button type="button" id="unitCelsiusBtn" class="unit-option active" role="radio" aria-checked="true" aria-label="Celsius">°C</button>
+            <button type="button" id="unitFahrenheitBtn" class="unit-option" role="radio" aria-checked="false" aria-label="Fahrenheit">°F</button>
+          </div>
+
+          <button type="button" id="themeToggleBtn" class="icon-btn" title="Switch between Atmospheric and Light theme" aria-label="Toggle Light Theme" aria-pressed="false">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+          </button>
+
+          <button type="button" id="openApiModalBtn" class="icon-btn" title="Configure OpenWeatherMap API Key" aria-label="Configure OpenWeatherMap API Key">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <path d="M21 2l-2 2m-1.5 6.1L19 8l-2-2-2.1 1.5M15 11l-9.5 9.5a2.121 2.121 0 0 1-3-3L12 8a5 5 0 1 1 3 3z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Searches Strip -->
+      <div id="recentRow" class="recent-row" hidden>
+        <span class="recent-heading">Recent:</span>
+        <div id="recentList" class="recent-list" role="list" aria-label="Recently searched cities"></div>
+        <button type="button" id="clearRecentBtn" class="recent-clear">Clear</button>
+      </div>
+    </header>
+
+    <!-- ========================================================================
+         API CONFIGURATION PROMPT (Shown only when no API key & no proxy active)
+         ======================================================================== -->
+    <section id="apiSetupBanner" class="notice-banner notice-setup" role="region" aria-label="API Key Setup" hidden>
+      <div class="notice-content">
+        <strong>OpenWeatherMap API Key Required</strong>
+        <p>Enter a free <a href="https://home.openweathermap.org/users/sign_up" target="_blank" rel="noopener noreferrer">OpenWeatherMap API key</a> to fetch live global telemetry, or configure <code>js/config.js</code>.</p>
+      </div>
+      <div class="notice-actions">
+        <button type="button" id="bannerConfigureBtn" class="btn btn-primary btn-sm">Enter API Key</button>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         NON-BLOCKING ERROR & LOADING STATUS REGIONS
+         ======================================================================== -->
+    <div id="errorBanner" class="notice-banner notice-error" role="alert" aria-live="assertive" hidden>
+      <div class="notice-content">
+        <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.5"></circle>
+          <line x1="12" y1="8" x2="12" y2="12.5"></line>
+          <circle cx="12" cy="16" r="0.75" fill="currentColor"></circle>
+        </svg>
+        <span id="errorMessage">Unable to load weather telemetry.</span>
+      </div>
+      <button type="button" id="dismissErrorBtn" class="notice-close" aria-label="Dismiss error message">&times;</button>
+    </div>
+
+    <div id="loadingBar" class="loading-bar" role="status" aria-live="polite" hidden>
+      <span class="loading-spinner" aria-hidden="true"></span>
+      <span id="loadingText">Retrieving live meteorological telemetry...</span>
+    </div>
+
+    <!-- ========================================================================
+         INITIAL EMPTY / WELCOME STATE (Before first successful API response)
+         ======================================================================== -->
+    <section id="emptyState" class="empty-state" aria-label="Search prompt" hidden>
+      <img src="assets/icons/logo.svg" alt="" width="40" height="40" aria-hidden="true" />
+      <h2>Real-Time Atmospheric Telemetry</h2>
+      <p>Search any city worldwide or enable location access to retrieve live temperature, atmospheric pressure, solar events, air quality, and a 5-day calendar forecast.</p>
+    </section>
+
+    <!-- ========================================================================
+         MAIN WEATHER DASHBOARD (Preserved during subsequent failed searches)
+         ======================================================================== -->
+    <main id="dashboard" class="dashboard" hidden>
+
+      <!-- SECTION B: CURRENT WEATHER HERO -->
+      <section class="hero-section" aria-label="Current Weather Summary">
+        <div class="hero-location-block">
+          <div class="location-title-row">
+            <h1 id="cityName" class="city-title">—</h1>
+            <span id="countryBadge" class="country-code">—</span>
+          </div>
+          <p id="regionLine" class="region-subtitle">—</p>
+          <p id="localDateTime" class="local-time">—</p>
+        </div>
+
+        <div class="hero-telemetry-block">
+          <div class="hero-temp-group">
+            <div class="temp-readout">
+              <span id="currentTemp" class="temp-figure">—</span>
+              <span id="currentUnit" class="temp-unit">°C</span>
+            </div>
+            <div class="temp-extremes">
+              <span>Feels like <strong id="feelsLikeTemp">—</strong></span>
+              <span class="sep" aria-hidden="true">·</span>
+              <span>H <strong id="tempHigh">—</strong></span>
+              <span class="sep" aria-hidden="true">·</span>
+              <span>L <strong id="tempLow">—</strong></span>
+            </div>
+          </div>
+
+          <div class="hero-condition-group">
+            <img id="weatherIcon" src="assets/icons/clear-day.svg" alt="Current weather condition" class="hero-weather-icon" width="64" height="64" />
+            <div class="condition-text-wrap">
+              <span id="weatherMain" class="condition-main">—</span>
+              <span id="weatherDescription" class="condition-desc">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION C: WEATHER METRICS -->
+      <section class="metrics-section" aria-label="Atmospheric Metrics">
+        <div class="section-header">
+          <h2 class="section-heading">Atmospheric Conditions</h2>
+          <span id="conditionContext" class="section-meta">Surface Telemetry</span>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/humidity.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Humidity</span>
+            </div>
+            <div class="metric-value" id="metricHumidity">—</div>
+            <div class="metric-note" id="metricHumidityNote">Relative moisture</div>
+          </article>
+
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/wind.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Wind Speed</span>
+            </div>
+            <div class="metric-value" id="metricWind">—</div>
+            <div class="metric-note" id="metricWindDir">Direction —</div>
+          </article>
+
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/pressure.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Pressure</span>
+            </div>
+            <div class="metric-value" id="metricPressure">—</div>
+            <div class="metric-note" id="metricPressureNote">Sea-level barometric</div>
+          </article>
+
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/visibility.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Visibility</span>
+            </div>
+            <div class="metric-value" id="metricVisibility">—</div>
+            <div class="metric-note" id="metricVisibilityNote">Horizontal sightline</div>
+          </article>
+
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/clouds.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Cloud Cover</span>
+            </div>
+            <div class="metric-value" id="metricClouds">—</div>
+            <div class="metric-note" id="metricCloudsNote">Sky obscuration</div>
+          </article>
+
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/sunrise.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Sunrise</span>
+            </div>
+            <div class="metric-value" id="metricSunrise">—</div>
+            <div class="metric-note">Local solar dawn</div>
+          </article>
+
+          <article class="metric-cell">
+            <div class="metric-label-row">
+              <img src="assets/icons/sunset.svg" alt="" class="metric-icon" width="18" height="18" aria-hidden="true" />
+              <span class="metric-label">Sunset</span>
+            </div>
+            <div class="metric-value" id="metricSunset">—</div>
+            <div class="metric-note">Local solar dusk</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SECTION D: FIVE-DAY FORECAST -->
+      <section class="forecast-section" aria-label="Five-Day Forecast">
+        <div class="section-header">
+          <div>
+            <h2 class="section-heading">5-Day Outlook</h2>
+            <p class="section-sub">Daily temperature range &amp; midday condition aggregated from 3-hour intervals</p>
+          </div>
+          <span id="forecastDaysCount" class="section-meta">5 Days</span>
+        </div>
+
+        <!-- Dynamically generated via Array.map() in js/weather.js -->
+        <div id="forecastList" class="forecast-list" role="list"></div>
+      </section>
+
+      <!-- SECTION E: ADDITIONAL WEATHER INFORMATION -->
+      <section class="additional-section" aria-label="Additional Telemetry & Location Details">
+        <div class="additional-grid">
+
+          <article class="info-panel">
+            <div class="info-panel-head">
+              <h3 class="info-heading">Solar Cycle &amp; Daylight</h3>
+              <span id="daylightDuration" class="info-badge">—</span>
+            </div>
+            <div class="solar-row">
+              <div>
+                <span class="info-label">First Light / Sunrise</span>
+                <strong id="detailSunrise" class="info-val">—</strong>
+              </div>
+              <div>
+                <span class="info-label">Last Light / Sunset</span>
+                <strong id="detailSunset" class="info-val">—</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="info-panel">
+            <div class="info-panel-head">
+              <h3 class="info-heading">Air Quality Telemetry</h3>
+              <span id="aqiBadge" class="info-badge">—</span>
+            </div>
+            <div class="aqi-row">
+              <div>
+                <span class="info-label">OpenWeather AQI</span>
+                <strong id="aqiRating" class="info-val">—</strong>
+              </div>
+              <div>
+                <span class="info-label">Fine Particulates (PM2.5)</span>
+                <strong id="aqiPm25" class="info-val">—</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="info-panel">
+            <div class="info-panel-head">
+              <h3 class="info-heading">Station &amp; Telemetry Metadata</h3>
+              <span id="utcOffsetBadge" class="info-badge">UTC</span>
+            </div>
+            <div class="station-row">
+              <div>
+                <span class="info-label">Coordinates</span>
+                <strong id="coordDisplay" class="info-val mono">—</strong>
+              </div>
+              <div>
+                <span class="info-label">Last Observation</span>
+                <strong id="lastUpdated" class="info-val">—</strong>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========================================================================
+         SECTION F: FOOTER
+         ======================================================================== -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <div class="footer-col">
+          <span class="footer-brand">Meridian Climate Telemetry</span>
+          <p class="footer-desc">Editorial weather dashboard built with semantic HTML5, CSS3, and asynchronous ES6+ Fetch integration.</p>
+        </div>
+        <div class="footer-col footer-right">
+          <p>Weather &amp; AQI telemetry provided by <a href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer">OpenWeatherMap API</a></p>
+          <p>&copy; 2026 Praveena P. · Datheon Full Stack Web Development Internship – Task 3</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================================================
+       API KEY SETTINGS DIALOG
+       ========================================================================== -->
+  <dialog id="apiModal" class="api-dialog" aria-labelledby="apiModalTitle">
+    <div class="dialog-panel">
+      <div class="dialog-header">
+        <h2 id="apiModalTitle">OpenWeatherMap API Configuration</h2>
+        <button type="button" id="closeApiModalBtn" class="notice-close" aria-label="Close API configuration">&times;</button>
+      </div>
+
+      <div class="dialog-body">
+        <p class="dialog-text">
+          Enter your personal <a href="https://home.openweathermap.org/users/sign_up" target="_blank" rel="noopener noreferrer">OpenWeatherMap API key</a> below. It is saved only in your browser's <code>localStorage</code> and never committed to source control.
+        </p>
+
+        <label for="apiKeyInput" class="dialog-label">API Key</label>
+        <input
+          type="password"
+          id="apiKeyInput"
+          class="dialog-input"
+          placeholder="Paste 32-character OpenWeatherMap key..."
+          autocomplete="off"
+        />
+        <p class="dialog-hint">Note: Newly created OpenWeatherMap keys may take 10–20 minutes to activate.</p>
+      </div>
+
+      <div class="dialog-footer">
+        <button type="button" id="clearApiKeyBtn" class="btn btn-secondary">Clear Saved Key</button>
+        <button type="button" id="saveApiKeyBtn" class="btn btn-primary">Save &amp; Load Weather</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modular ES6+ Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

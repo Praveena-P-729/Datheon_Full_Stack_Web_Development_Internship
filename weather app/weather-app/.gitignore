@@ -1,0 +1,16 @@
+# Environment & Secret Overrides
+.env
+.env.local
+.env.production
+js/config.local.js
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+
+# Dependencies (if serverless CLI tools are installed locally)
+node_modules/
+.vercel/
+.netlify/

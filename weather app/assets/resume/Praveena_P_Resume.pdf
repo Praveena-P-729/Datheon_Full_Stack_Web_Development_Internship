@@ -1,0 +1,90 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1724 >>
+stream
+BT
+/F1 18 Tf
+48 765 Td
+(PRAVEENA P.) Tj
+/F1 11 Tf
+0 -20 Td
+(Software Developer | Full Stack Developer) Tj
+/F1 9.5 Tf
+0 -16 Td
+(Email: [your.email@example.com] | GitHub: github.com/Praveena-P-729) Tj
+0 -14 Td
+(LinkedIn: linkedin.com/in/praveena-palanisamy-083426338/) Tj
+0 -24 Td
+/F1 12 Tf
+(EDUCATION) Tj
+/F1 9.5 Tf
+0 -15 Td
+(B.Tech in Information Technology (Final Year) - [College / University Name]) Tj
+0 -13 Td
+(Department of Information Technology | Expected Graduation: [Year]) Tj
+0 -22 Td
+/F1 12 Tf
+(TECHNICAL SKILLS) Tj
+/F1 9.5 Tf
+0 -15 Td
+(Frontend: HTML5, CSS3, JavaScript, React.js) Tj
+0 -13 Td
+(Backend & APIs: Node.js, Python, FastAPI, REST APIs) Tj
+0 -13 Td
+(Languages: Java, Python, JavaScript) Tj
+0 -13 Td
+(Tools & Version Control: Git, GitHub) Tj
+0 -22 Td
+/F1 12 Tf
+(INTERNSHIP EXPERIENCE) Tj
+/F1 9.5 Tf
+0 -15 Td
+(1. CodeAlpha - Frontend Development Intern ([Duration Placeholder])) Tj
+0 -13 Td
+(   Developed responsive frontend interfaces using HTML5, CSS3, and JavaScript.) Tj
+0 -17 Td
+(2. SkillCraft Technology - Web Development Intern ([Duration Placeholder])) Tj
+0 -13 Td
+(   Built interactive web layout modules and practiced structured frontend workflows.) Tj
+0 -22 Td
+/F1 12 Tf
+(FEATURED PROJECTS) Tj
+/F1 9.5 Tf
+0 -15 Td
+(1. AI-Powered Study Companion - Study notes structuring & interactive quiz generation.) Tj
+0 -14 Td
+(2. Automated Answer Script Evaluation System - Rubric-aligned answer evaluation.) Tj
+0 -14 Td
+(3. AI-Based Smart Healthcare System - Symptom triage & patient care coordination.) Tj
+0 -14 Td
+(4. Digital Twin for Warehouse Management - Virtual rack mapping & inventory sync.) Tj
+0 -14 Td
+(5. CareerOne - Student Career Platform - Internship discovery & readiness tracking.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000002017 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2087
+%%EOF
